@@ -1,9 +1,8 @@
 set -q __git_plugin_initialized; and exit 0
 
-set -U __git_plugin_abbreviations
-
-
 function __git_abbr_install --on-event plugin_git_install
+    set -U __git_plugin_abbreviations
+
     function __git_abbr -d "Create Git plugin abbreviation"
         set -l name $argv[1]
         set -l body $argv[2..-1]
@@ -153,6 +152,9 @@ function __git_abbr_install --on-event plugin_git_install
     __git_abbr gfp git flow publish
 
     functions --erase __git_abbr
+
+    # Mark git plugin as initialized
+    set -U __git_plugin_initialized (date)
 end
 
 function __git_abbr_update --on-event plugin_git_update
@@ -167,6 +169,3 @@ function __git_abbr_uninstall --on-event plugin_git_uninstall
     set -Ue __git_plugin_abbreviations
     set -Ue __git_plugin_initialized
 end
-
-# Mark git plugin as initialized
-set -U __git_plugin_initialized (date)
